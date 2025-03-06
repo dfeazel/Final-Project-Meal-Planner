@@ -1,1 +1,76 @@
+import tkinter as tk
+from tkinter import messagebox
 
+def showMealPlan():
+    # Switch to the meal plan window
+    window1.withdraw()  # Hide the main window
+    window2.deiconify()  # Show the meal plan window
+
+def goBackToMain():
+    # Switch back to the main window
+    window2.withdraw()  # Hide the meal plan window
+    window1.deiconify()  # Show the main window
+
+def mealSelected(day, meal):
+    messagebox.showinfo("Meal Selected", f"You selected {meal} for {day}!")
+
+def exitProgram():
+    window1.quit()  # Close the application
+
+# Create the main window 
+window1 = tk.Tk()
+window1.title("Weekly Meal Planner")
+window1.geometry("500x500")
+
+# Label for the main window
+labelTitle = tk.Label(window1, text="Welcome to the Weekly Meal Planner!", font=("Arial", 16))
+labelTitle.pack(pady=10)
+
+# Button to show meal plan window
+btnShowPlan = tk.Button(window1, text="View Meal Plan", command=showMealPlan)
+btnShowPlan.pack(pady=10)
+
+# Exit button for window1
+btnExit1 = tk.Button(window1, text="Exit", command=exitProgram)
+btnExit1.pack(pady=10)
+
+# Create the second window 
+window2 = tk.Toplevel()
+window2.title("Weekly Meal Plan")
+window2.geometry("600x600")
+window2.withdraw()  # Hide the second window to start
+
+# Label for the meal plan window
+labelWeeklyPlan = tk.Label(window2, text="Select your meals for the week", font=("Arial", 12))
+labelWeeklyPlan.pack(pady=10)
+
+# Meal options for each day
+mealOptions = {
+    "Monday": ["Chicken Salad", "Chicken Alfredo", "Chicken Rice Bowl"],
+    "Tuesday": ["Tacos", "Quesadillas", "Fajitas"],
+    "Wednesday": ["Pizza", "Spaghetti", "Lasagna"],
+    "Thursday": ["Taco Soup", "Vegetable Soup"],
+    "Friday": ["Sushi", "Steak"],
+}
+
+# Create labels and buttons for each day of the week
+for day, options in mealOptions.items():
+    # Create a label for each day
+    dayLabel = tk.Label(window2, text=f"{day}:", font=("Arial", 12))
+    dayLabel.pack(pady=5)
+
+    # Create buttons for each meal option of the day
+    for meal in options:
+        btnMeal = tk.Button(window2, text=meal, command=lambda d=day, m=meal: mealSelected(d, m))
+        btnMeal.pack(pady=2)
+
+# Button to go back to the main window
+btnBack = tk.Button(window2, text="Back to Main", command=goBackToMain)
+btnBack.pack(pady=10)
+
+# Exit button for window2
+btnExit2 = tk.Button(window2, text="Exit", command=exitProgram)
+btnExit2.pack(pady=10)
+
+# Start the main loop for window1
+window1.mainloop()
